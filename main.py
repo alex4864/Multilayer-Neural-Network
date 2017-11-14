@@ -42,16 +42,16 @@ data = generate_data(clusters, labels, 1, 20)
 
 G = nx.DiGraph()
 
-G.add_nodes_from(range(1, 3), type='input')
-G.add_nodes_from(range(3, 7), type='hidden')
-G.add_nodes_from(range(7, 8), type='output')
+G.add_nodes_from(range(0, 2), type='input')
+G.add_nodes_from(range(2, 6), type='hidden')
+G.add_nodes_from(range(6, 7), type='output')
 
-for i in range(1, 3):
-	for j in range(3, 7):
+for i in range(0, 2):
+	for j in range(2, 6):
 		G.add_edge(i, j)
 
-for i in range(3, 7):
-	for j in range(7, 8):
+for i in range(2, 6):
+	for j in range(6, 7):
 		G.add_edge(i, j)
 
 net = Network(G)
