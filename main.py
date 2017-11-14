@@ -3,6 +3,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 from network import Network
 from generate_data import generate_data
+from generate_graph import generate_shallow_network
 
 def label_to_color(label):
 	red = (label + 1) / 2
@@ -40,23 +41,11 @@ labels = [-1, -1, 1, 1, -1, 1, -1]
 
 data = generate_data(clusters, labels, 1, 20)
 
-G = nx.DiGraph()
-
-G.add_nodes_from(range(0, 2), type='input')
-G.add_nodes_from(range(2, 6), type='hidden')
-G.add_nodes_from(range(6, 7), type='output')
-
-for i in range(0, 2):
-	for j in range(2, 6):
-		G.add_edge(i, j)
-
-for i in range(2, 6):
-	for j in range(6, 7):
-		G.add_edge(i, j)
+G = generate_shallow_network(2, 4, 1)
 
 net = Network(G)
 
-for j in range(0, 300):
+for i in range(0, 300):
 	for j in range (0, len(data)):
 		net.learn(data[j]['coord'], [data[j]['label']])
 
