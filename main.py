@@ -2,6 +2,7 @@ import numpy as np
 import networkx as nx
 import matplotlib.pyplot as plt
 from network import Network
+from trainer import Trainer
 from generate_data import generate_data
 from generate_graph import generate_shallow_network
 
@@ -17,9 +18,9 @@ def plot_data(data):
 	yCoords = []
 	labels = []
 	for point in data:
-		xCoords.append(point['coord'][0])
-		yCoords.append(point['coord'][1])
-		labels.append(point['label'])
+		xCoords.append(point['inputs'][0])
+		yCoords.append(point['inputs'][1])
+		labels.append(point['label'][0])
 
 	colors = []
 	for label in labels:
@@ -40,19 +41,19 @@ clusters = [[1, 1], [-1, -1], [1, -1], [-1, 1], [2, 0], [-2, 0], [-2, 2]]
 labels = [-1, -1, 1, 1, -1, 1, -1]
 
 data = generate_data(clusters, labels, 1, 20)
-
-G = generate_shallow_network(2, 4, 1)
-
+G = generate_shallow_network(2, 8, 1)
 net = Network(G)
+netTrainer = Trainer(data)
 
-for i in range(0, 300):
-	for j in range (0, len(data)):
-		net.learn(data[j]['coord'], [data[j]['label']])
+error = netTrainer.train(net)
 
+plt.figure(1)
 plot_data(data)
 plot_network(net)
-
 plt.xlabel('x1')
 plt.ylabel('x2')
+
+plt.figure(2)
+plt.plot(error)
 
 plt.show()

@@ -52,10 +52,15 @@ class Network:
 		if len(targetOutputs) != len(self.outputNeurons):
 			raise Exception("Size of targetOutputs (" + str(len(targetOutputs)) + ") does not match number of output neurons (" + str(len(self.outputNeurons)) + ")")
 
-		self.feed_forward(inputs)
+		outputs = self.feed_forward(inputs)
 		self.back_propagate(targetOutputs)
 		self.update_weights()
 		self.reset_neurons()
+
+		error = 0
+		for i, output in enumerate(outputs):
+			error += abs(outputs[i] - targetOutputs[i])
+		return error
 
 	def feed_forward(self, inputs):
 		for i, input in enumerate(inputs):

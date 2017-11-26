@@ -18,5 +18,5 @@ def generate_data_point(baseCoord, label, spread):
 	for value in baseCoord:
 		newVal = value + (random.random() * spread) - (spread / 2)
 		coord = np.append(coord, newVal)
-	point = {'coord': coord, 'label': label}
+	point = {'inputs': coord, 'label': [label]}
 	return point
