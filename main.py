@@ -41,9 +41,10 @@ clusters = [[1, 1], [-1, -1], [1, -1], [-1, 1], [2, 0], [-2, 0], [-2, 2]]
 labels = [-1, -1, 1, 1, -1, 1, -1]
 
 data = generate_data(clusters, labels, 1, 20)
+validationData = generate_data(clusters, labels, 1, 20)
 G = generate_shallow_network(2, 4, 1)
 net = Network(G)
-netTrainer = Trainer(data)
+netTrainer = Trainer(data, validationData)
 
 error = netTrainer.train(net)
 

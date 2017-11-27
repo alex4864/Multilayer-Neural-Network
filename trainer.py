@@ -1,18 +1,30 @@
 import random
 
 class Trainer:
-	def __init__(self, trainingSet):
+	def __init__(self, trainingSet, validationSet):
 		self.trainingSet = trainingSet
+		self.validationSet = validationSet
 
 	def train(self, network):
 		errorSequence = []
 		for i in range(500):
-			errorSequence.append( self.epoch(network) )
+			self.epoch(network)
+			errorSequence.append( self.measure_validation_error(network) )
 
 			if self.breakCondition(errorSequence):
 				break
 
 		return errorSequence
+
+	def measure_validation_error(self, network):
+		error = 0
+		for trainingExample in self.validationSet:
+			outputs = network.evaluate(trainingExample['inputs'])
+			for i, output in enumerate(outputs):
+				error += abs(outputs[i] - trainingExample['label'][i])
+
+		return error / len(self.validationSet)
+
 
 	# returns True if we should break (stop training), False otherwise
 	def breakCondition(self, errorSequence):
